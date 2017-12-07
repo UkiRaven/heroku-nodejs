@@ -1,9 +1,15 @@
 const TelegramBot = require('node-telegram-bot-api');
-const TOKEN = "465573784:AAGp3Kb2nHHUsahI-0QRHOWkn_MjlVkbrsc";
+const TOKEN = require('./bot-token').token;
 
 var bot = new TelegramBot(TOKEN, {polling: true});
 
-bot.onText(/так блэт/, (msg, match) => {
+bot.onText(/так блэт/i,  (msg, match) => {
   const chatId = msg.chat.id;
-  bot.sendMessage(chatId, "test");
-})
+  bot.sendSticker(chatId, "sticker.webp");
+});
+
+bot.onText(/\/echo (.+)/, function (msg, match) {
+    var fromId = msg.chat.id;
+    var resp = match[1];
+    bot.sendMessage(fromId, resp);
+});
